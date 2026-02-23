@@ -1,5 +1,5 @@
-import type {Metadata, Viewport} from "next";
-import {Manrope, JetBrains_Mono} from "next/font/google"
+import type { Metadata, Viewport } from "next";
+import { Manrope, JetBrains_Mono } from "next/font/google"
 import './globals.css'
 import React from "react";
 
@@ -17,8 +17,8 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: 'HEXAGONO - Desarrollo Web',
-  description: 
-  "Agencia de desarrollo web, Diseño original, codigo robusto, estrategia de conversión, Rancagua, Rengo, Region de O'Higgins, Chile",
+  description:
+    "Agencia de desarrollo web, Diseño original, codigo robusto, estrategia de conversión, Rancagua, Rengo, Region de O'Higgins, Chile",
   // icons: {
   //   icon: [
   //     { url: '/icon-light-32x32.png', media: '(prefers-color-scheme: light)' },
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
 
 
 export const viewport: Viewport = {
-  themeColor: '#0A0A0A',  
+  themeColor: '#0A0A0A',
   width: 'device-width',
   initialScale: 1,
 }
@@ -43,8 +43,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" className={`${manrope.variable} ${jetbrainsMono.variable}`}>
-      <body className="font-sans antialiased overflow-x-hidden">
-        {children}        
+      <body className="font-sans antialiased overflow-x-hidden bg-black">
+        {children}
       </body>
     </html>
   )
