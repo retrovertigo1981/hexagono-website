@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState, useRef, useCallback } from 'react'
+import { createPortal } from 'react-dom'
 import gsap from 'gsap'
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
 
@@ -189,8 +190,8 @@ export function Navbar() {
     return (
         <>
             {/* NAV */}
-            <nav className={`fixed top-0 left-0 right-0 z-500 flex justify-between items-center px-6 py-7 md:px-12 transition-all  duration-300 ${scrolled ? 'bg-[rgba(10,10,10, 0.9)] backdrop-blur-[20px] border-b border-(--hex-border)' : ''}`}>
-                <a href="#"
+            <nav className={`fixed top-0 left-0 right-0 flex justify-between items-center px-6 py-7 md:px-12 transition-all  duration-300 ${scrolled ? 'bg-[rgba(10,10,10, 0.9)] backdrop-blur-[20px] border-b border-(--hex-border)' : ''}`} style={{ zIndex: 10000 }}>
+                <a href="/"
                     className='font-mono text-[15px] font-bold tracking-[0.15rem] text-foreground no-underline'>
                     {'HEXAGONO'}
                     <span className='text-primary' style={{ fontSize: 'normal' }}>.</span>
@@ -218,59 +219,63 @@ export function Navbar() {
                     </button>
                 </div>
             </nav>
-            {/* OVERLAY */}
-            <div
-                className={`fixed inset-0 z-400 bg-background flex transition-opacity duration-500 ${menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
-            >
-                {/* Lado Izquierdo - menu links */}
-                <div className="flex-1 flex flex-col justify-center px-8 py-20 lg:px-18">
-                    <p className="font-mono text-[10px] tracking-[0.25em] text-foreground/20 mb-10">{'( MENU )'}</p>
-                    <ul className="list-none space-y-1.5">
-                        {itemsMenu.map((item, i) => (
-                            <li key={item.href} className="overflow-hidden">
-                                <a
-                                    ref={el => { if (el) linksRef.current[i] = el }}
-                                    href={item.href}
-                                    onClick={(e) => handleNavClick(e, item.href)}
-                                    onMouseEnter={() => setActiveImg(i)}
-                                    className="inline-flex items-center gap-4 text-[clamp(2.2rem,4.5vw,4rem)] font-extrabold tracking-[-0.04em] text-foreground/30 no-underline leading-[1.1] transition-colors duration-300 hover:text-foreground group"
-                                >
+            {/* OVERLAY - Using Portal */}
+            {typeof window !== 'undefined' && createPortal(
+                <div
+                    className={`fixed inset-0 bg-background flex transition-opacity duration-500 ${menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+                    style={{ zIndex: 9999 }}
+                >
+                    {/* Lado Izquierdo - menu links */}
+                    <div className="flex-1 flex flex-col justify-center px-8 py-20 lg:px-18">
+                        <p className="font-mono text-[10px] tracking-[0.25em] text-foreground/20 mb-10">{'( MENU )'}</p>
+                        <ul className="list-none space-y-1.5">
+                            {itemsMenu.map((item, i) => (
+                                <li key={item.href} className="overflow-hidden">
+                                    <a
+                                        ref={el => { if (el) linksRef.current[i] = el }}
+                                        href={item.href}
+                                        onClick={(e) => handleNavClick(e, item.href)}
+                                        onMouseEnter={() => setActiveImg(i)}
+                                        className="inline-flex items-center gap-4 text-[clamp(2.2rem,4.5vw,4rem)] font-extrabold tracking-[-0.04em] text-foreground/30 no-underline leading-[1.1] transition-colors duration-300 hover:text-foreground group"
+                                    >
 
-                                    <span className="text-transparent transition-colors duration-300 group-hover:text-primary inline-block w-18 shrink-0">{item.num}.</span>
-                                    <div className='ml-6'>
-                                        {item.label}
-                                    </div>
+                                        <span className="text-transparent transition-colors duration-300 group-hover:text-primary inline-block w-18 shrink-0">{item.num}.</span>
+                                        <div className='ml-6'>
+                                            {item.label}
+                                        </div>
+                                    </a>
+                                </li>
+                            ))}
+                        </ul>
+                        <div className="mt-14 flex gap-6">
+                            {['Instagram', 'LinkedIn', 'GitHub'].map(s => (
+                                <a key={s} href="#" className="font-mono text-[10px] tracking-[0.2em] text-foreground/25 no-underline uppercase transition-colors duration-200 hover:text-primary">
+                                    {s}
                                 </a>
-                            </li>
-                        ))}
-                    </ul>
-                    <div className="mt-14 flex gap-6">
-                        {['Instagram', 'LinkedIn', 'GitHub'].map(s => (
-                            <a key={s} href="#" className="font-mono text-[10px] tracking-[0.2em] text-foreground/25 no-underline uppercase transition-colors duration-200 hover:text-primary">
-                                {s}
-                            </a>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Right side - SVG illustrations that crossfade on hover */}
+                    <div className="w-1/3 relative overflow-hidden border-l border-(--hex-border) hidden lg:block">
+                        {menuSvgs.map((SvgComp, i) => (
+                            <div
+                                key={i}
+                                ref={el => { imgRefs.current[i] = el }}
+                                className="absolute inset-0 flex items-center justify-center"
+                                style={{
+                                    background: menuBgs[i],
+                                    opacity: i === 0 ? 1 : 0,
+                                    scale: i === 0 ? '1' : '0.92',
+                                }}
+                            >
+                                <SvgComp />
+                            </div>
                         ))}
                     </div>
-                </div>
-
-                {/* Right side - SVG illustrations that crossfade on hover */}
-                <div className="w-1/3 relative overflow-hidden border-l border-(--hex-border) hidden lg:block">
-                    {menuSvgs.map((SvgComp, i) => (
-                        <div
-                            key={i}
-                            ref={el => { imgRefs.current[i] = el }}
-                            className="absolute inset-0 flex items-center justify-center"
-                            style={{
-                                background: menuBgs[i],
-                                opacity: i === 0 ? 1 : 0,
-                                scale: i === 0 ? '1' : '0.92',
-                            }}
-                        >
-                            <SvgComp />
-                        </div>
-                    ))}
-                </div>
-            </div>
+                </div>,
+                document.body
+            )}
         </>
 
     )
