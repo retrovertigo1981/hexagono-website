@@ -1,14 +1,11 @@
 'use client'
 
 import React, { useEffect, useRef } from 'react'
-import Image from 'next/image'
 import { ArrowRight } from 'lucide-react'
 
 const drivenWords = ['VENTAS', 'CLIENTES', 'CONFIANZA', 'RESULTADOS', 'CRECIMIENTO']
 
 export function Hero() {
-
-    /*  Logica para crear panel de hexagonos*/
 
     const canvasRef = useRef<HTMLCanvasElement>(null)
     const trackRef = useRef<HTMLDivElement>(null)
@@ -54,7 +51,7 @@ export function Hero() {
             ctx.clearRect(0, 0, canvas.width, canvas.height)
             hexes.forEach(h => {
                 const d = Math.hypot(h.cx - mhx, h.cy - mhy)
-                const tg = d < 160 ? 1 - d / 160 : 0
+                const tg = d < 200 ? 1 - d / 200 : 0
                 h.g += (tg - h.g) * 0.07
                 const pulse = 0.022 + 0.014 * Math.sin(t * 0.0008 + h.ph)
                 ctx.beginPath()
@@ -64,11 +61,11 @@ export function Hero() {
                     else ctx.lineTo(h.cx + h.r * Math.cos(a), h.cy + h.r * Math.sin(a))
                 }
                 ctx.closePath()
-                ctx.strokeStyle = h.g > 0.05 ? `rgba(255,107,53,${pulse + h.g * 0.5})` : `rgba(0,240,255,${pulse})`
+                ctx.strokeStyle = h.g > 0.05 ? `rgba(255,107,53,${pulse + h.g * 0.9})` : `rgba(0,240,255,${pulse})`
                 ctx.lineWidth = 0.5 + h.g * 0.8
                 ctx.stroke()
                 if (h.g > 0.12) {
-                    ctx.fillStyle = `rgba(255,107,53,${h.g * 0.07})`
+                    ctx.fillStyle = `rgba(255,107,53,${h.g * 0.2})`
                     ctx.fill()
                 }
             })
@@ -85,8 +82,6 @@ export function Hero() {
             cancelAnimationFrame(raf)
         }
     }, [])
-
-    /* Rotador de Palabras */
 
     useEffect(() => {
         const track = trackRef.current
@@ -109,7 +104,6 @@ export function Hero() {
                             gsap.set(track, { y: 0 })
                         }
                     }
-
                 })
             })
         }, 2200)
@@ -130,43 +124,45 @@ export function Hero() {
     }
 
     return (
-        <section id="hero" className="min-h-screen flex flex-col justify-end px-6 pb-16 md:px-12 md:pb-20 relative" style={{ zIndex: 1 }}>
-            {/* Background image */}
-            {/* <Image
-                src="/images/hero-bg.jpg"
-                alt=""
-                fill
-                priority
-                className="object-cover opacity-20 pointer-events-none"
-                sizes="100vw"
-            /> */}
-
-            {/* Canvas */}
-            <canvas ref={canvasRef} className="absolute inset-0 w-full h-full z-0 opacity-35" />
+        // ✅ FIX: isolation: 'isolate' reemplaza el stacking context roto.
+        // El section NO tiene z-index numérico — eso evita que compita con el overlay del menú.
+        // isolation: isolate crea su propio contexto solo para los hijos internos (canvas, stamp, etc.)
+        // sin "escaparse" al contexto raíz donde vive el overlay del Navbar.
+        <section
+            id="hero"
+            className="min-h-screen flex flex-col justify-end px-6 pb-16 md:px-12 md:pb-20 relative"
+            style={{ isolation: 'isolate' }}
+        >
+            {/* Canvas — la opacity se aplica via globalAlpha en draw(), no como clase CSS */}
+            <canvas
+                ref={canvasRef}
+                className="absolute inset-0 w-full h-full"
+                style={{ opacity: 0.35 }}
+            />
 
             {/* Anti-template stamp */}
-            <div className="hero-stamp-wrap absolute top-1/2 right-[60px] -translate-y-1/2 rotate-[15deg] z-0 w-40 h-40 hidden lg:flex items-center justify-center">
+            <div className="hero-stamp-wrap absolute top-1/2 right-80 -translate-y-1/2 rotate-15 w-70 h-70 hidden lg:flex items-center justify-center">
                 <svg viewBox="0 0 160 160" fill="none" className="w-full h-full animate-[spin_20s_linear_infinite]">
                     <circle cx="80" cy="80" r="70" stroke="rgba(255,107,53,0.25)" strokeWidth="1" strokeDasharray="4 6" />
                     <path id="textPath" d="M80,80 m-60,0 a60,60 0 1,1 120,0 a60,60 0 1,1 -120,0" fill="none" />
                     <text fontFamily="JetBrains Mono" fontSize="10.5" fill="rgba(255,107,53,0.6)" letterSpacing="3">
-                        <textPath href="#textPath">{'SIN PLANTILLAS \u00B7 SIN WIX \u00B7 SIN WORDPRESS \u00B7 SIN COPY-PASTE \u00B7'}</textPath>
+                        <textPath href="#textPath">{'WEBS QUE CONVIERTEN  \u00B7 WEBS PERSUASIVAS \u00B7 ESCALABLES \u00B7  OPTIMIZADAS'}</textPath>
                     </text>
                 </svg>
-                <div className="absolute inset-0 flex items-center justify-center font-mono text-[11px] font-bold text-primary text-center leading-[1.3] tracking-[0.05em]">
+                <div className="absolute inset-0 flex items-center justify-center font-mono text-[18px] font-bold text-primary text-center leading-[1.3] tracking-[0.05em]">
                     {'DISENO'}<br />{'ORIGINAL'}
                 </div>
             </div>
 
             {/* Driven words */}
-            <div className="hero-driven-wrap absolute top-1/2 left-6 md:left-12 -translate-y-[60%] z-0">
-                <p className="font-mono text-[10px] tracking-[0.3em] text-foreground/25 uppercase mb-3">Impulsado por</p>
+            <div className="hero-driven-wrap absolute top-1/2 left-6 md:left-12 -translate-y-[60%]">
+                <p className="font-mono text-[18px] tracking-[0.3em] text-foreground/25 uppercase mb-3">tu web construida para generar</p>
                 <div className="overflow-hidden" style={{ height: 'clamp(52px, 8vw, 80px)' }}>
                     <div ref={trackRef} className="flex flex-col">
                         {drivenWords.map((word, i) => (
                             <div
                                 key={i}
-                                className={`dw-item text-[clamp(2.8rem,6.5vw,6rem)] font-[900] tracking-[-0.05em] leading-[1.08] flex items-center ${i % 2 !== 0 ? 'text-primary' : 'text-foreground'}`}
+                                className={`dw-item text-[clamp(2.8rem,6.5vw,6rem)] font-black tracking-[-0.05em] leading-[1.08] flex items-center ${i % 2 !== 0 ? 'text-primary' : 'text-foreground'}`}
                                 style={{ height: 'clamp(52px, 8vw, 80px)' }}
                             >
                                 {word}
@@ -177,19 +173,20 @@ export function Hero() {
             </div>
 
             {/* Bottom */}
-            <div className="hero-bottom-wrap relative z-0 flex flex-col md:flex-row justify-between items-start md:items-end gap-7">
-                <div className="max-w-[520px]">
+            <div className="hero-bottom-wrap relative flex flex-col md:flex-row justify-between items-start md:items-end gap-7">
+                <div className="max-w-130">
                     <p className="text-[15px] md:text-base leading-[1.85] text-foreground/40 mb-8">
                         <strong className="text-foreground font-bold">Tu negocio no es una plantilla.</strong><br />
-                        Nosotros tampoco. Cada proyecto que salimos a construir
-                        nace desde cero &mdash; con estrategia, codigo original y diseno
-                        que nunca has visto antes.
+                        Nosotros tampoco. Diseñamos y programamos tu web
+                        desde cero  para que cada visita tenga una razón
+                        concreta de quedarse y contactarte.
+
                     </p>
                     <div className="flex gap-4 flex-wrap">
                         <a
                             href="#paquetes"
                             onClick={(e) => handleClick(e, '#paquetes')}
-                            className="inline-flex items-center gap-2.5 px-7 py-3.5 bg-primary text-primary-foreground font-mono text-xs font-bold tracking-[0.1em] uppercase no-underline rounded-sm transition-all duration-200 hover:bg-[#ff8a5e] hover:-translate-y-0.5 hover:shadow-[0_12px_32px_rgba(255,107,53,0.25)]"
+                            className="inline-flex items-center gap-2.5 px-7 py-3.5 bg-primary text-primary-foreground font-mono text-xs font-bold tracking-widest uppercase no-underline rounded-sm transition-all duration-200 hover:bg-[#ff8a5e] hover:-translate-y-0.5 hover:shadow-[0_12px_32px_rgba(255,107,53,0.25)]"
                         >
                             Ver paquetes
                             <ArrowRight size={14} />
@@ -197,30 +194,22 @@ export function Hero() {
                         <a
                             href="#contacto"
                             onClick={(e) => handleClick(e, '#contacto')}
-                            className="inline-flex items-center gap-2.5 px-7 py-3.5 bg-transparent text-foreground border border-[var(--hex-border)] font-mono text-xs font-bold tracking-[0.1em] uppercase no-underline rounded-sm transition-all duration-200 hover:bg-foreground/[0.04]"
+                            className="inline-flex items-center gap-2.5 px-7 py-3.5 bg-transparent text-foreground border border-(--hex-border) font-mono text-xs font-bold tracking-widest uppercase no-underline rounded-sm transition-all duration-200 hover:bg-foreground/4"
                         >
                             {'Hablemos \u2192'}
                         </a>
                     </div>
                 </div>
                 <div className="flex flex-row md:flex-col items-center md:items-end gap-4 md:gap-6">
-                    <span className="font-mono text-[10px] tracking-[0.2em] text-foreground/20 uppercase">
+                    {/* <span className="font-mono text-[10px] tracking-[0.2em] text-foreground/20 uppercase">
                         {'Rancagua & Santiago, CL'}
-                    </span>
-                    <div className="font-mono text-[9px] tracking-[0.3em] text-foreground/20 uppercase md:writing-mode-vertical flex items-center gap-2.5" style={{ writingMode: 'vertical-rl' }}>
-                        <span className="block w-px h-12 bg-gradient-to-b from-transparent to-primary" />
+                    </span> */}
+                    <div className="font-mono text-[12px] tracking-[0.3em] text-foreground/20 uppercase flex items-center gap-2.5" style={{ writingMode: 'vertical-rl' }}>
+                        <span className="block w-0.5 h-24 bg-linear-to-b from-transparent to-primary" />
                         Scroll
                     </div>
                 </div>
             </div>
         </section>
     )
-
-
-
-
-
-
-
-
 }

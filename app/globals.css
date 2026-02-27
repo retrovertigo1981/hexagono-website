@@ -5,7 +5,7 @@
 
 :root {
   /* Base  */
-  --background: oklch(14.5, 0 0);
+  --background: oklch(14.5% 0 0);
   --foreground: oklch(97.5% 0 0);          
 
   /* Cards & Popovers */
