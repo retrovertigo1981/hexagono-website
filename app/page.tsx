@@ -3,6 +3,7 @@ import { GsapAnimations } from '@/components/gsap-animations'
 import { Navbar } from '@/components/Navbar'
 import { Hero } from '@/components/Hero'
 import { Marquesina } from '@/components/Marquesina'
+import { Manifiesto } from '@/components/Manifiesto'
 
 export default function Home() {
   return (
@@ -13,6 +14,7 @@ export default function Home() {
       <main>
         <Hero />
         <Marquesina />
+        <Manifiesto />
       </main>
 
     </>
