@@ -16,7 +16,7 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'HEXAGONO - Desarrollo Web',
+  title: 'HEXAGONO 8 - Desarrollo Web',
   description:
     "Agencia de desarrollo web, Diseño original, codigo robusto, estrategia de conversión, Rancagua, Rengo, Region de O'Higgins, Chile",
   // icons: {

@@ -2,6 +2,9 @@
 
 import React, { useEffect, useRef } from 'react'
 import { ArrowRight } from 'lucide-react'
+import Image from 'next/image'
+import macbookMockup from '@/public/images/mockup_macbook_hexagono8.webp'
+
 
 const drivenWords = ['VENTAS', 'CLIENTES', 'CONFIANZA', 'RESULTADOS', 'CRECIMIENTO']
 
@@ -133,6 +136,10 @@ export function Hero() {
             className="min-h-screen flex flex-col justify-end px-6 pb-16 md:px-12 md:pb-20 relative"
             style={{ isolation: 'isolate' }}
         >
+
+
+
+
             {/* Canvas — la opacity se aplica via globalAlpha en draw(), no como clase CSS */}
             <canvas
                 ref={canvasRef}
@@ -140,8 +147,18 @@ export function Hero() {
                 style={{ opacity: 0.35 }}
             />
 
+            {/* Hero img */}
+            <div className='hero-stamp-wrap absolute w-160 h-160 right-46 top-18 rotate-12'>
+                <Image
+                    src={macbookMockup}
+                    alt='Macbook Pro con web desarrollada por Hexagono 8 Studio'
+                />
+            </div>
+
+
+
             {/* Anti-template stamp */}
-            <div className="hero-stamp-wrap absolute top-1/2 right-80 -translate-y-1/2 rotate-15 w-70 h-70 hidden lg:flex items-center justify-center">
+            <div className="hero-right-wrap absolute top-2/4 right-26 -translate-y-1/2 rotate-15 w-50 h-50 hidden lg:flex items-center justify-center">
                 <svg viewBox="0 0 160 160" fill="none" className="w-full h-full animate-[spin_20s_linear_infinite]">
                     <circle cx="80" cy="80" r="70" stroke="rgba(255,107,53,0.25)" strokeWidth="1" strokeDasharray="4 6" />
                     <path id="textPath" d="M80,80 m-60,0 a60,60 0 1,1 120,0 a60,60 0 1,1 -120,0" fill="none" />
@@ -155,7 +172,7 @@ export function Hero() {
             </div>
 
             {/* Driven words */}
-            <div className="hero-driven-wrap absolute top-1/2 left-6 md:left-12 -translate-y-[60%]">
+            <div className="hero-driven-wrap absolute top-[42%] left-6 md:left-12 -translate-y-[60%]">
                 <p className="font-mono text-[18px] tracking-[0.3em] text-foreground/25 uppercase mb-3">tu web construida para generar</p>
                 <div className="overflow-hidden" style={{ height: 'clamp(52px, 8vw, 80px)' }}>
                     <div ref={trackRef} className="flex flex-col">
@@ -176,10 +193,13 @@ export function Hero() {
             <div className="hero-bottom-wrap relative flex flex-col md:flex-row justify-between items-start md:items-end gap-7">
                 <div className="max-w-130">
                     <p className="text-[15px] md:text-base leading-[1.85] text-foreground/40 mb-8">
-                        <strong className="text-foreground font-bold">Tu negocio no es una plantilla.</strong><br />
+                        <strong className="text-foreground font-bold text-2xl">Tu negocio no es una plantilla.</strong><br />
                         Nosotros tampoco. Diseñamos y programamos tu web
                         desde cero  para que cada visita tenga una razón
-                        concreta de quedarse y contactarte.
+                        concreta de quedarse y contactarte. trabajamos con  criterio, proceso claro y la convicción de que
+                        <strong className='text-foreground ml-0.5'>  una web bien hecha cambia lo que tu cliente piensa
+                            de tu negocio en los primeros 5 segundos.
+                        </strong>
 
                     </p>
                     <div className="flex gap-4 flex-wrap">

@@ -204,7 +204,7 @@ export function Navbar() {
                 style={{ zIndex: 10000 }}
             >
                 <a href="/" className='font-mono text-[15px] font-bold tracking-[0.15rem] text-foreground no-underline'>
-                    {'HEXAGONO'}
+                    {'HEXAGONO 8'}
                     <span className='text-primary' style={{ fontSize: 'normal' }}>.</span>
                 </a>
                 <div className='flex items-center gap-8'>

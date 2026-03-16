@@ -13,6 +13,7 @@ export function GsapAnimations() {
             gsap.from('.hero-driven-wrap', { x: -50, opacity: 0, duration: 1, delay: 0.5, ease: 'power3.out' })
             gsap.from('.hero-bottom-wrap', { y: 40, opacity: 0, duration: 1.1, delay: 1, ease: 'power3.out' })
             gsap.from('.hero-stamp-wrap', { opacity: 0, scale: 0.8, duration: 1.2, delay: 1.3, ease: 'back.out(1.7)' })
+            gsap.from('.hero-right-wrap', { x: 50, opacity: 0, duration: 1.3, delay: 1.9, ease: 'power3.out' })
 
             // Reveal animations
             const revealEls = document.querySelectorAll('.rv')
