@@ -158,7 +158,7 @@ export function Hero() {
 
 
             {/* Anti-template stamp */}
-            <div className="hero-right-wrap absolute top-2/4 right-26 -translate-y-1/2 rotate-15 w-50 h-50 hidden lg:flex items-center justify-center">
+            <div className="hero-bottom-wrap absolute top-2/4 right-26 -translate-y-1/2 rotate-15 w-50 h-50 hidden lg:flex items-center justify-center">
                 <svg viewBox="0 0 160 160" fill="none" className="w-full h-full animate-[spin_20s_linear_infinite]">
                     <circle cx="80" cy="80" r="70" stroke="rgba(255,107,53,0.25)" strokeWidth="1" strokeDasharray="4 6" />
                     <path id="textPath" d="M80,80 m-60,0 a60,60 0 1,1 120,0 a60,60 0 1,1 -120,0" fill="none" />
