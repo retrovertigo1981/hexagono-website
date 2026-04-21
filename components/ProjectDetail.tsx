@@ -227,13 +227,13 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
         }
 
         function resize() {
-            canvas.width = canvas.offsetWidth
-            canvas.height = canvas.offsetHeight
-            buildHexes(canvas.width, canvas.height)
+            canvas!.width = canvas!.offsetWidth
+            canvas!.height = canvas!.offsetHeight
+            buildHexes(canvas!.width, canvas!.height)
         }
 
         function draw() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height)
+            ctx.clearRect(0, 0, canvas!.width, canvas!.height)
             hexes.forEach(h => {
                 h.pulse += h.speed
                 const alpha = 0.025 + Math.sin(h.pulse) * 0.02
