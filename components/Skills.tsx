@@ -10,10 +10,19 @@ export function Skills() {
     const r2Ref = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
+        let mounted = true
+        let t1: { kill: () => void } | null = null
+        let t2: { kill: () => void } | null = null
         import('gsap').then(({ gsap }) => {
-            if (r1Ref.current) gsap.to(r1Ref.current, { x: '-50%', duration: 24, ease: 'none', repeat: -1 })
-            if (r2Ref.current) gsap.to(r2Ref.current, { x: '-50%', duration: 36, ease: 'none', repeat: -1 })
+            if (!mounted) return
+            if (r1Ref.current) t1 = gsap.to(r1Ref.current, { x: '-50%', duration: 24, ease: 'none', repeat: -1 })
+            if (r2Ref.current) t2 = gsap.to(r2Ref.current, { x: '-50%', duration: 36, ease: 'none', repeat: -1 })
         })
+        return () => {
+            mounted = false
+            t1?.kill()
+            t2?.kill()
+        }
     }, [])
 
     return (

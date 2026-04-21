@@ -145,7 +145,8 @@ export function Navbar() {
 
     const overlay = (
         <div
-            className={`fixed inset-0 bg-background flex transition-opacity z-500 duration-500 ${menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+            className={`fixed inset-0 bg-background flex transition-opacity duration-500 ${menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+            style={{ zIndex: 2147483000 }}
 
         >
             {/* Lado Izquierdo - menu links */}
@@ -196,40 +197,44 @@ export function Navbar() {
         </div>
     )
 
+    const navBar = (
+        <nav
+            className={`fixed top-0 left-0 right-0 flex justify-between items-center px-6 py-7 md:px-12 transition-all duration-300 pointer-events-auto ${scrolled ? 'bg-[rgba(10,10,10,0.9)] backdrop-blur-[20px] border-b border-(--hex-border)' : ''}`}
+            style={{ zIndex: 2147483600 }}
+        >
+            <a href="/" className='font-mono text-[15px] font-bold tracking-[0.15rem] text-foreground no-underline'>
+                {'HEXAGONO 8'}
+                <span className='text-primary' style={{ fontSize: 'normal' }}>.</span>
+            </a>
+            <div className='flex items-center gap-8'>
+                <span className='font-mono text-[10px] tracking-[0.25em] text-foreground/30 uppercase hidden md:inline'>
+                    Santiago &middot; Rancagua &middot; Rengo
+                </span>
+                <button onClick={toggleMenu} className="relative z-[1] pointer-events-auto font-mono text-[11px] font-bold tracking-[0.25em] uppercase text-foreground bg-transparent border-none flex items-center gap-3 cursor-pointer">
+                    <div className='flex flex-col gap-1.25 cursor-pointer'>
+                        <span
+                            className="block w-5.5 h-px bg-foreground transition-transform duration-300 origin-center"
+                            style={menuOpen ? { transform: 'rotate(45deg) translate(4px,4px)' } : {}}
+                        />
+                        <span
+                            className="block w-5.5 h-px bg-foreground transition-opacity duration-300"
+                            style={menuOpen ? { opacity: 0 } : {}}
+                        />
+                        <span
+                            className="block w-5.5 h-px bg-foreground transition-transform duration-300 origin-center"
+                            style={menuOpen ? { transform: 'rotate(-45deg) translate(4px,-4px)' } : {}}
+                        />
+                    </div>
+                    {'MENU'}
+                </button>
+            </div>
+        </nav>
+    )
+
     return (
         <>
-            {/* NAV */}
-            <nav
-                className={`fixed top-0 left-0 right-0 flex justify-between items-center px-6 py-7 md:px-12 transition-all duration-300 ${scrolled ? 'bg-[rgba(10,10,10,0.9)] backdrop-blur-[20px] border-b border-(--hex-border)' : ''}`}
-                style={{ zIndex: 10000 }}
-            >
-                <a href="/" className='font-mono text-[15px] font-bold tracking-[0.15rem] text-foreground no-underline'>
-                    {'HEXAGONO 8'}
-                    <span className='text-primary' style={{ fontSize: 'normal' }}>.</span>
-                </a>
-                <div className='flex items-center gap-8'>
-                    <span className='font-mono text-[10px] tracking-[0.25em] text-foreground/30 uppercase hidden md:inline'>
-                        Santiago &middot; Rancagua &middot; Rengo
-                    </span>
-                    <button onClick={toggleMenu} className="font-mono text-[11px] font-bold tracking-[0.25em] uppercase text-foreground bg-transparent border-none flex items-center gap-3 cursor-pointer">
-                        <div className='flex flex-col gap-1.25 cursor-pointer'>
-                            <span
-                                className="block w-5.5 h-px bg-foreground transition-transform duration-300 origin-center"
-                                style={menuOpen ? { transform: 'rotate(45deg) translate(4px,4px)' } : {}}
-                            />
-                            <span
-                                className="block w-5.5 h-px bg-foreground transition-opacity duration-300"
-                                style={menuOpen ? { opacity: 0 } : {}}
-                            />
-                            <span
-                                className="block w-5.5 h-px bg-foreground transition-transform duration-300 origin-center"
-                                style={menuOpen ? { transform: 'rotate(-45deg) translate(4px,-4px)' } : {}}
-                            />
-                        </div>
-                        {'MENU'}
-                    </button>
-                </div>
-            </nav>
+            {/* NAV via Portal — evita stacking contexts de secciones sticky/pinned */}
+            {mounted && createPortal(navBar, document.body)}
 
             {/* OVERLAY via Portal — se monta en document.body escapando cualquier stacking context */}
             {mounted && createPortal(overlay, document.body)}

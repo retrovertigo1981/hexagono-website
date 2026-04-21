@@ -12,9 +12,16 @@ export function Marquesina() {
     useEffect(() => {
         const el = trackRef.current
         if (!el) return
+        let mounted = true
+        let tween: { kill: () => void } | null = null
         import('gsap').then(({ gsap }) => {
-            gsap.to(el, { x: '-50%', duration: 28, ease: 'none', repeat: -1 })
+            if (!mounted) return
+            tween = gsap.to(el, { x: '-50%', duration: 28, ease: 'none', repeat: -1 })
         })
+        return () => {
+            mounted = false
+            tween?.kill()
+        }
     }, [])
 
     return (

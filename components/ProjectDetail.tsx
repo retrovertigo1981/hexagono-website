@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useLayoutEffect, useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import type { Project, ProjectImage } from '@/data/projects'
@@ -113,7 +113,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
     const sidebarRef = useRef<HTMLElement>(null)
 
     // ── GSAP animations ───────────────────────────────────────────────────────
-    useEffect(() => {
+    useLayoutEffect(() => {
         let ctx: any
 
         const init = async () => {
@@ -311,10 +311,10 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
 
             {/* ── IMAGEN PRINCIPAL ──────────────────────────────────────────────── */}
             <div className="bg-[#141414] border-t border-b border-white/[0.07]">
-                <div className="max-w-[1300px] mx-auto grid grid-cols-[1fr_420px] max-[900px]:grid-cols-1 min-h-[520px]">
+                <div className="max-w-[1300px] mx-auto grid grid-cols-[minmax(0,1fr)_clamp(18rem,31vw,26.25rem)] max-[980px]:grid-cols-1 min-h-[520px]">
 
                     {/* Main mockup */}
-                    <div className="pd-rv relative overflow-hidden border-r border-white/[0.07] max-[900px]:border-r-0 max-[900px]:border-b bg-[#0d0d0d] min-h-[520px]">
+                    <div className="pd-rv relative overflow-hidden border-r border-white/[0.07] max-[980px]:border-r-0 max-[980px]:border-b bg-[#0d0d0d] min-h-[520px]">
                         {/* Grid overlay */}
                         <div
                             className="absolute inset-0 pointer-events-none"
@@ -328,7 +328,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                             alt={project.mainImage.alt}
                             fill
                             className="object-cover"
-                            sizes="(max-width: 900px) 100vw, calc(100vw - 420px)"
+                            sizes="(max-width: 980px) 100vw, (max-width: 1536px) 68vw, 880px"
                             priority
                         />
                         <span className="absolute bottom-4 left-12 font-mono text-[10px] tracking-[.2em] text-white/20 z-10">
@@ -348,7 +348,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
             {/* ── BODY ──────────────────────────────────────────────────────────── */}
             <div
                 ref={contentRef}
-                className="max-w-[1300px] mx-auto px-12 py-[100px] grid grid-cols-[1fr_380px] gap-20 items-start max-[960px]:grid-cols-1 max-[960px]:gap-16 max-md:px-6 max-md:py-20"
+                className="max-w-[1300px] mx-auto px-12 py-[100px] grid grid-cols-[minmax(0,1fr)_clamp(18rem,28vw,23.75rem)] gap-12 xl:gap-20 items-start max-[1040px]:grid-cols-1 max-[1040px]:gap-16 max-md:px-6 max-md:py-20"
             >
 
                 {/* ─ Left column ─ */}
@@ -385,7 +385,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                 </div>
 
                 {/* ─ Right column (sidebar) ─ */}
-                <aside ref={sidebarRef} className="flex flex-col gap-[2px] max-[960px]:static sticky top-24">
+                <aside ref={sidebarRef} className="flex flex-col gap-[2px] max-[1040px]:static sticky top-24">
 
                     {/* Info del proyecto */}
                     <div className="pd-rv bg-[#141414] border border-white/[0.07] px-8 py-7 rounded-t-md">
@@ -506,7 +506,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
 
             {/* ── NAVEGACIÓN PREV / NEXT ─────────────────────────────────────────── */}
             <nav className="border-t border-white/[0.07] bg-[#0A0A0A] px-12 max-md:px-6">
-                <div className="max-w-[1300px] mx-auto grid grid-cols-[1fr_auto_1fr]">
+                <div className="max-w-[1300px] mx-auto grid grid-cols-[1fr_auto_1fr] max-md:grid-cols-1">
 
                     {/* Prev */}
                     {project.prevSlug ? (
@@ -526,7 +526,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                     )}
 
                     {/* Sep */}
-                    <div className="flex items-center justify-center px-10 py-10 opacity-[.15] text-[1.5rem] text-[#FF6B35]">
+                    <div className="flex items-center justify-center px-10 py-10 opacity-[.15] text-[1.5rem] text-[#FF6B35] max-md:hidden">
                         ⬡
                     </div>
 
@@ -534,7 +534,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                     {project.nextSlug ? (
                         <Link
                             href={`/work/${project.nextSlug}`}
-                            className="pd-rv flex flex-col justify-center items-end py-10 text-right pl-8 group transition-colors duration-200 hover:bg-white/[.02]"
+                            className="pd-rv flex flex-col justify-center items-end py-10 text-right pl-8 max-md:pl-0 group transition-colors duration-200 hover:bg-white/[.02]"
                         >
                             <span className="font-mono text-[8px] tracking-[.3em] text-white/20 uppercase mb-2">
                                 Siguiente →

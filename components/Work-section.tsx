@@ -154,26 +154,31 @@ export function WorkSection() {
     useEffect(() => {
         const workSec = workRef.current
         const pt = trackRef.current
+        const sticky = stickyRef.current
         if (!workSec || !pt) return
 
         let stInstance: any = null
+        let sw = 0
 
         const setup = async () => {
             const { gsap } = await import('gsap')
             const { ScrollTrigger } = await import('gsap/ScrollTrigger')
             gsap.registerPlugin(ScrollTrigger)
 
-            const getSW = () => pt.scrollWidth - window.innerWidth + 96
-            workSec.style.height = getSW() + window.innerHeight + 'px'
+            const updateMetrics = () => {
+                sw = Math.max(0, pt.scrollWidth - window.innerWidth + 96)
+                workSec.style.height = `${sw + window.innerHeight}px`
+            }
+            updateMetrics()
 
             stInstance = ScrollTrigger.create({
                 trigger: workSec,
                 start: 'top top',
-                end: () => `+=${getSW()}`,
-                pin: '#ws',
+                end: () => `+=${sw}`,
+                pin: sticky,
                 scrub: 1,
                 onUpdate: (s: any) => {
-                    gsap.set(pt, { x: -s.progress * getSW() })
+                    gsap.set(pt, { x: -s.progress * sw })
                     const total = projects.length + 1 // cards + CTA
                     const idx = Math.min(Math.floor(s.progress * (total + 1)) + 1, total)
                     if (countRef.current)
@@ -182,7 +187,7 @@ export function WorkSection() {
             })
 
             const handleResize = () => {
-                workSec.style.height = getSW() + window.innerHeight + 'px'
+                updateMetrics()
                 ScrollTrigger.refresh()
             }
             window.addEventListener('resize', handleResize)
@@ -197,7 +202,7 @@ export function WorkSection() {
     }, [])
 
     return (
-        <div id="work" ref={workRef} className="relative">
+        <div id="work" ref={workRef} className="relative overflow-x-clip">
             <div id="ws" ref={stickyRef} className="sticky top-0 h-screen overflow-hidden flex flex-col justify-center">
 
                 {/* Header */}
@@ -208,10 +213,10 @@ export function WorkSection() {
                 </div>
 
                 {/* Track */}
-                <div ref={trackRef} className="flex items-center gap-6 px-6 md:px-12 will-change-transform">
+                <div ref={trackRef} className="flex items-center gap-4 md:gap-6 px-6 md:px-12 will-change-transform">
 
                     {/* Intro card */}
-                    <div className="shrink-0 w-[300px] flex flex-col justify-center pr-8">
+                    <div className="shrink-0 w-[clamp(15rem,36vw,18.75rem)] flex flex-col justify-center pr-8">
                         <p className="font-mono text-[10px] tracking-[0.3em] text-white/20 uppercase mb-[14px]">
                             Proyectos
                         </p>
@@ -229,7 +234,7 @@ export function WorkSection() {
                         <Link
                             key={proj.slug}
                             href={`/work/${proj.slug}`}
-                            className="project-card ml-6 shrink-0 w-[360px] h-[500px] relative overflow-hidden rounded-sm bg-[#141414] border border-white/[0.07] group cursor-none max-[480px]:w-[300px] max-[480px]:h-[420px]"
+                            className="project-card ml-2 md:ml-6 shrink-0 w-[clamp(17.5rem,42vw,22.5rem)] h-[clamp(24rem,58vw,31.25rem)] relative overflow-hidden rounded-sm bg-[#141414] border border-white/[0.07] group cursor-none"
                         >
                             {/* Image */}
                             <div className="absolute inset-0 transition-transform duration-[600ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)] group-hover:scale-[1.05]">
@@ -238,7 +243,7 @@ export function WorkSection() {
                                     alt={proj.name}
                                     fill
                                     className="object-cover"
-                                    sizes="360px"
+                                    sizes="(max-width: 640px) 70vw, (max-width: 1024px) 44vw, 360px"
                                 />
                             </div>
 
@@ -260,7 +265,7 @@ export function WorkSection() {
                     ))}
 
                     {/* CTA card */}
-                    <div className="project-card shrink-0 w-[360px] h-[500px] relative overflow-hidden rounded-sm bg-[rgba(255,107,53,.05)] border border-[rgba(255,107,53,.14)] flex items-center justify-center flex-col text-center p-10 max-[480px]:w-[300px] max-[480px]:h-[420px]">
+                    <div className="project-card shrink-0 w-[clamp(17.5rem,42vw,22.5rem)] h-[clamp(24rem,58vw,31.25rem)] relative overflow-hidden rounded-sm bg-[rgba(255,107,53,.05)] border border-[rgba(255,107,53,.14)] flex items-center justify-center flex-col text-center p-8 md:p-10">
                         <span className="text-[3.5rem] opacity-[.12] mb-5">⬡</span>
                         <p className="font-mono text-[10px] tracking-[.25em] text-white/25 uppercase mb-[14px]">
                             Próximo espécimen

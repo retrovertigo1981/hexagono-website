@@ -7,8 +7,10 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
     const lenisRef = useRef<Lenis | null>(null)
 
     useEffect(() => {
-        let lenisInstance: Lenis
-        let tickerCallback: (time: number) => void
+        let lenisInstance: Lenis | null = null
+        let tickerCallback: ((time: number) => void) | null = null
+        let gsapInstance: { ticker: { add: (cb: (time: number) => void) => void; remove: (cb: (time: number) => void) => void; lagSmoothing: (threshold: number) => void } } | null = null
+        let isMounted = true
 
         const init = async () => {
             const [{ default: Lenis }, { gsap }, { ScrollTrigger }] = await Promise.all([
@@ -16,8 +18,10 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
                 import('gsap'),
                 import('gsap/ScrollTrigger'),
             ])
+            if (!isMounted) return
 
             gsap.registerPlugin(ScrollTrigger)
+            gsapInstance = gsap
 
             lenisInstance = new Lenis({
                 duration: 1.2,
@@ -33,7 +37,7 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
 
             // Guardar referencia al callback para poder removerlo en el cleanup
             tickerCallback = (time: number) => {
-                lenisInstance.raf(time * 1000)
+                lenisInstance?.raf(time * 1000)
             }
 
             gsap.ticker.add(tickerCallback)
@@ -43,11 +47,9 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
         init()
 
         return () => {
-            if (tickerCallback) {
-                // Necesitamos importar gsap de forma síncrona para el cleanup
-                import('gsap').then(({ gsap }) => {
-                    gsap.ticker.remove(tickerCallback)
-                })
+            isMounted = false
+            if (tickerCallback && gsapInstance) {
+                gsapInstance.ticker.remove(tickerCallback)
             }
             lenisInstance?.destroy()
             lenisRef.current = null

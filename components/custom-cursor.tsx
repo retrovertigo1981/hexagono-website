@@ -81,7 +81,7 @@ export function CustomCursor() {
         <>
             <div
                 ref={dotRef}
-                className="fixed top-0 left-0 pointer-events-none z-[9999] rounded-full"
+                className="fixed top-0 left-0 pointer-events-none z-[2147483647] rounded-full"
                 style={{
                     width: 8,
                     height: 8,
@@ -92,7 +92,7 @@ export function CustomCursor() {
             />
             <div
                 ref={ringRef}
-                className="fixed top-0 left-0 pointer-events-none z-[9998] rounded-full"
+                className="fixed top-0 left-0 pointer-events-none z-[2147483646] rounded-full"
                 style={{
                     width: 40,
                     height: 40,
