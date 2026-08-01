@@ -94,14 +94,14 @@ export interface Project {
 
 export const projects: Project[] = [
   {
-    slug: 'medicos-al-rescate',
-    type: 'Corporativo · Salud',
-    name: 'Médicos al Rescate',
-    image: '/images/project-branding.jpg',
+    slug: 'cuchadoras',
+    type: 'Arte · fondart',
+    name: 'Cucháforas',
+    image: '/images/cuchaforas_shots_so.webp',
 
-    title: 'Médicos al',
-    titleAccent: 'Rescate',
-    category: 'Corporativo · Salud · Landing',
+    title: 'Proyecto',
+    titleAccent: 'Cucháforas',
+    category: 'Mujeres · Arte · Comunidad · Artesanias',
 
     client: 'Médicos al Rescate SpA',
     city: 'Santiago',
@@ -162,7 +162,7 @@ export const projects: Project[] = [
     slug: 'muebles-el-romero',
     type: 'E-commerce · Retail',
     name: 'Muebles El Romero',
-    image: '/images/project-corporate.jpg',
+    image: '/images/mueblesromero_inicio_shots_so.webp',
 
     title: 'Muebles El',
     titleAccent: 'Romero',
@@ -191,7 +191,7 @@ export const projects: Project[] = [
       'Tienda operativa con más de 80 productos cargados. Primera venta online en la primera semana de lanzamiento.',
 
     mainImage: {
-      src: '/images/projects/romero-main.jpg',
+      src: '/images/mueblesromero_principal.png',
       alt: 'Muebles El Romero — tienda online',
       label: 'Tienda',
     },

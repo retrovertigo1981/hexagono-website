@@ -22,7 +22,7 @@ export default function Home() {
       <Navbar />
       <main>
         <Hero />
-        <Marquesina />
+        {/* <Marquesina /> */}
         <Manifiesto />
         <WorkSection />
         <Metodo />

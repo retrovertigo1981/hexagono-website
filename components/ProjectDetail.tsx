@@ -4,6 +4,7 @@ import { useEffect, useLayoutEffect, useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import type { Project, ProjectImage } from '@/data/projects'
+import { getAdjacentProjects } from '@/data/projects'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Sub-components
@@ -87,7 +88,7 @@ function GalleryItem({ img }: { img: ProjectImage }) {
                 src={img.src}
                 alt={img.alt}
                 fill
-                className="object-cover transition-transform duration-500 group-hover:scale-[1.05]"
+                className=" object-contain transition-transform duration-500 group-hover:scale-[1.05]"
                 sizes="(max-width: 768px) 100vw, 33vw"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[rgba(10,10,10,.8)] to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
@@ -111,6 +112,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
     const canvasRef = useRef<HTMLCanvasElement>(null)
     const contentRef = useRef<HTMLDivElement>(null)
     const sidebarRef = useRef<HTMLElement>(null)
+    const { prev, next } = getAdjacentProjects(project.slug)
 
     // ── GSAP animations ───────────────────────────────────────────────────────
     useLayoutEffect(() => {
@@ -197,7 +199,14 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
 
         const ctx = canvas.getContext('2d')!
         let animId: number
-        let hexes: { x: number; y: number; r: number; pulse: number; speed: number }[] = []
+        let hexes: { x: number; y: number; r: number; pulse: number; speed: number; g: number }[] = []
+        let mhx = -9999, mhy = -9999
+
+        const handleMouse = (e: MouseEvent) => {
+            const rc = canvas.getBoundingClientRect()
+            mhx = e.clientX - rc.left
+            mhy = e.clientY - rc.top
+        }
 
         function hexPath(x: number, y: number, r: number) {
             ctx.beginPath()
@@ -221,6 +230,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                         r,
                         pulse: Math.random() * Math.PI * 2,
                         speed: 0.003 + Math.random() * 0.004,
+                        g: 0,
                     })
                 }
             }
@@ -229,18 +239,25 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
         function resize() {
             canvas!.width = canvas!.offsetWidth
             canvas!.height = canvas!.offsetHeight
+            if (canvas!.width === 0 || canvas!.height === 0) return
             buildHexes(canvas!.width, canvas!.height)
         }
 
-        function draw() {
+        function draw(t: number) {
             ctx.clearRect(0, 0, canvas!.width, canvas!.height)
             hexes.forEach(h => {
-                h.pulse += h.speed
-                const alpha = 0.025 + Math.sin(h.pulse) * 0.02
-                hexPath(h.x, h.y, h.r - 2)
-                ctx.strokeStyle = `rgba(255,107,53,${alpha})`
-                ctx.lineWidth = 0.5
+                const d = Math.hypot((h.x + h.r) - mhx, h.y - mhy)
+                const tg = d < 200 ? 1 - d / 200 : 0
+                h.g += (tg - h.g) * 0.07
+                const pulse = 0.1 + Math.sin(t * 0.0008 + h.pulse) * 0.1
+                hexPath(h.x, h.y, h.r)
+                ctx.strokeStyle = h.g > 0.05 ? `rgba(255,107,53,${pulse + h.g * 0.9})` : `rgba(0,240,255,${pulse})`
+                ctx.lineWidth = 0.5 + h.g * 0.8
                 ctx.stroke()
+                if (h.g > 0.12) {
+                    ctx.fillStyle = `rgba(255,107,53,${h.g * 0.2})`
+                    ctx.fill()
+                }
             })
             animId = requestAnimationFrame(draw)
         }
@@ -248,9 +265,11 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
         resize()
         draw()
         window.addEventListener('resize', resize)
+        document.addEventListener('mousemove', handleMouse)
         return () => {
             cancelAnimationFrame(animId)
             window.removeEventListener('resize', resize)
+            document.removeEventListener('mousemove', handleMouse)
         }
     }, [])
 
@@ -265,7 +284,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
             <section className="relative min-h-screen flex flex-col justify-end px-12 pb-20 pt-[120px] overflow-hidden max-md:px-6 max-md:pb-16">
                 <canvas
                     ref={canvasRef}
-                    className="absolute inset-0 w-full h-full opacity-[.18]"
+                    className="absolute inset-0 w-full h-full opacity-[.35]"
                 />
                 {/* Gradient overlay */}
                 <div className="absolute inset-0 bg-gradient-to-br from-[rgba(10,10,10,.6)] via-[rgba(10,10,10,.3)] to-[rgba(255,107,53,.04)]" />
@@ -293,7 +312,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                         {/* Meta items */}
                         {[
                             { label: 'Empresa', value: project.client },
-                            { label: 'Ciudad', value: project.city },
+                            { label: 'Ciudad', value: project.location },
                             { label: 'Categoría', value: project.projectType },
                             { label: 'Año', value: project.year },
                         ].map(({ label, value }) => (
@@ -493,7 +512,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                             </div>
                         </div>
 
-                        <div className="grid grid-cols-3 gap-[2px] bg-white/[0.07] border border-white/[0.07] rounded overflow-hidden max-md:grid-cols-1">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[2px] bg-white/[0.07] border border-white/[0.07] rounded overflow-hidden">
                             {project.gallery.map((img, i) => (
                                 <div key={i} className="pd-rv">
                                     <GalleryItem img={img} />
@@ -518,7 +537,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                                 ← Anterior
                             </span>
                             <span className="text-[clamp(1.1rem,2vw,1.5rem)] font-black tracking-[-0.03em] text-white transition-colors duration-200 group-hover:text-[#FF6B35]">
-                                {projects.find(p => p.slug === project.prevSlug)?.name ?? ''}
+                                {prev?.name ?? ''}
                             </span>
                         </Link>
                     ) : (
@@ -540,7 +559,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                                 Siguiente →
                             </span>
                             <span className="text-[clamp(1.1rem,2vw,1.5rem)] font-black tracking-[-0.03em] text-white transition-colors duration-200 group-hover:text-[#FF6B35]">
-                                {projects.find(p => p.slug === project.nextSlug)?.name ?? ''}
+                                {next?.name ?? ''}
                             </span>
                         </Link>
                     ) : (
@@ -553,6 +572,3 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
         </div>
     )
 }
-
-// Necesario para la navegación prev/next en el componente
-import { projects } from '@/data/projects'

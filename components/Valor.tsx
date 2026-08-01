@@ -24,10 +24,16 @@ const values = [
     },
 ]
 
-const nosomos = [
-    'Necesitas algo listo mañana. Trabajar bien toma el tiempo que toma — no cortamos esquinas.',
-    'Buscas el precio más bajo posible. No competimos en precio, competimos en lo que entregas a tu cliente.',
-    'Quieres pagar $49.990 por una web. Eso existe — pero no es lo que hacemos ni lo que te vamos a ofrecer.',
+// const nosomos = [
+//     'Necesitas algo listo mañana. Trabajar bien toma el tiempo que toma — no cortamos esquinas.',
+//     'Buscas el precio más bajo posible. No competimos en precio, competimos en lo que entregas a tu cliente.',
+//     'Quieres pagar $49.990 por una web. Eso existe — pero no es lo que hacemos ni lo que te vamos a ofrecer.',
+// ]
+// En lugar de "No somos para ti si...", usa:
+const somosPara = [
+    'Buscas una inversión que se valorice con el tiempo, no un gasto mensual que desaparece.',
+    'Valoras la predictibilidad: precio fijo, plazos claros y comunicación directa con quien hace el trabajo.',
+    'Quieres un socio técnico que responda a tu realidad de negocio, no a un ticket de soporte genérico.',
 ]
 
 export function Valor() {
@@ -70,7 +76,7 @@ export function Valor() {
                 <div className="rv bg-primary/[0.04] border border-primary/[0.12] rounded-sm p-10 md:p-14 mt-12">
                     <div className="flex justify-between items-center mb-10 flex-wrap gap-4">
                         <h3 className="text-[clamp(1.8rem,3.5vw,2.8rem)] font-[900] tracking-[-0.04em]">
-                            {'No somos para ti '}
+                            {'Somos para ti '}
                             <span className="text-primary">{'si...'}</span>
                         </h3>
                         <span className="font-mono text-[9px] tracking-[0.2em] text-foreground/20 uppercase border border-[var(--hex-border)] px-3 py-1.5 rounded-full">
@@ -78,9 +84,9 @@ export function Valor() {
                         </span>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-8">
-                        {nosomos.map((text, i) => (
+                        {somosPara.map((text, i) => (
                             <div key={i}>
-                                <span className="font-mono text-base text-primary block mb-2.5">{'\u2717'}</span>
+                                {/* <span className="font-mono text-base text-primary block mb-2.5">{'\u2717'}</span> */}
                                 <p className="text-sm leading-[1.7] text-foreground/[0.45]">{text}</p>
                             </div>
                         ))}

@@ -22,18 +22,33 @@ export function Manifiesto() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
                 {/* Left */}
                 <div className="rv">
-                    <span className="font-mono text-[13px] tracking-[0.3em] text-accent uppercase block mb-6">
+                    {/* <span className="font-mono text-[13px] tracking-[0.3em] text-accent uppercase block mb-6">
                         {'// 00 \u2014 El Problema que Resolvemos'}
-                    </span>
-                    <h2 className="text-[clamp(2.8rem,5vw,4.5rem)] font-black tracking-[-0.05em] leading-[1.02] mb-8 text-balance">
+                    </span> */}
+                    {/* <h2 className="text-[clamp(2.8rem,5vw,4.5rem)] font-black tracking-[-0.05em] leading-[1.02] mb-8 text-balance">
                         {'Tienes un buen negocio,'}
-                        {/* {'Negocio,'} */}
+                        
                         <br />
                         {'pero tu web '}
                         <span className="text-primary">{'no lo refleja.'}</span>
                     </h2>
                     <p className="text-base leading-[1.9] text-foreground/45 mb-9">
                         La mayoría de negocios en la región no tienen una web, o tienen una web que existe pero no trabaja. Carga lento, se ve igual que la competencia, nadie la encuentra en Google y el cliente que llega no entiende en 5 segundos qué haces ni por qué elegirte. Eso tiene un costo real — cada visita que se va sin contactarte es un cliente que fue a otra parte.
+                    </p> */}
+                    <span className="font-mono text-[13px] tracking-[0.3em] text-accent uppercase block mb-6">
+                        {'// 00 — Lo que resolvemos'}
+                    </span>
+                    <h2 className="text-[clamp(2.8rem,5vw,4.5rem)] font-black tracking-[-0.05em] leading-[1.02] mb-8 text-balance">
+                        {'Tu negocio crece. '}
+                        <br />
+                        {'Tu web debería '}
+                        <span className="text-primary">{'acompañarlo.'}</span>
+                    </h2>
+                    <p className="text-base leading-[1.9] text-foreground/45 mb-9">
+                        Muchas PYMEs y profesionales tienen una web que existe, pero no trabaja. Carga lento, no se encuentra en Google,
+                        y el cliente que llega no entiende en 5 segundos por qué elegirte. Eso tiene un costo: cada visita que se va
+                        sin contactarte es una oportunidad perdida.
+                        En Hexágono 8 construimos infraestructura digital que convierte visitas en contactos, y contactos en clientes.
                     </p>
                     <div className="flex flex-col gap-4">
                         {checks.map((c, i) => (

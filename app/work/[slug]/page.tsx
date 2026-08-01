@@ -4,6 +4,11 @@
 import { notFound } from 'next/navigation'
 import { getProjectBySlug, getAllProjectSlugs } from '@/data/projects'
 import ProjectDetail from '@/components/ProjectDetail'
+import { Navbar } from '@/components/Navbar'
+import { Footer } from '@/components/Footer'
+import { SmoothScroll } from '@/components/Smooth-scroll'
+import { CustomCursor } from '@/components/custom-cursor'
+import { GsapAnimations } from '@/components/gsap-animations'
 
 // ── Static generation ──────────────────────────────────────────────────────
 
@@ -30,5 +35,18 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
 
     if (!project) notFound()
 
-    return <ProjectDetail project={project!} />
+    return (
+        <>
+            <SmoothScroll>
+                <CustomCursor />
+                <GsapAnimations />
+                <Navbar />
+                <main>
+                    <ProjectDetail project={project!} />
+                </main>
+                <Footer />
+            </SmoothScroll>
+        </>
+
+    )
 }

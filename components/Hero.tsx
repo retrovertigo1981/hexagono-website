@@ -112,7 +112,7 @@ export function Hero() {
         window.addEventListener('resize', handleResize)
 
         if ('fonts' in document) {
-            ;(document as Document & { fonts: FontFaceSet }).fonts.ready.then(() => {
+            ; (document as Document & { fonts: FontFaceSet }).fonts.ready.then(() => {
                 if (!mounted) return
                 handleResize()
             })
@@ -179,14 +179,14 @@ export function Hero() {
                 style={{ opacity: 0.35 }}
             />
 
-            <div className="relative max-w-[1600px] min-h-screen mx-auto w-full flex flex-col">
+            <div className="relative max-w-400 min-h-screen mx-auto w-full flex flex-col">
                 {/* Hero img */}
                 <div
                     className="hero-stamp-wrap absolute rotate-12 pointer-events-none hidden lg:block"
                     style={{
                         width: 'clamp(16rem, 34vw, 40rem)',
                         height: 'clamp(16rem, 34vw, 40rem)',
-                        right: 'clamp(-5rem, 5vw, 9rem)',
+                        right: 'clamp(-5rem, 20vw, 12rem)',
                         top: 'clamp(2rem, 7vw, 4.5rem)',
                     }}
                 >
@@ -213,11 +213,11 @@ export function Hero() {
                         </text>
                     </svg>
                     <div className="absolute inset-0 flex items-center justify-center font-mono text-[18px] font-bold text-primary text-center leading-[1.3] tracking-[0.05em]">
-                        {'DISENO'}<br />{'ORIGINAL'}
+                        {'DISENO'}<br />{'WENOS'}
                     </div>
                 </div>
 
-                <div className="relative z-10 lg:max-w-[48rem] lg:min-h-[calc(100vh-8rem)] lg:flex lg:flex-col lg:justify-center lg:py-[clamp(3rem,7vh,5.5rem)]">
+                <div className="relative z-10 lg:max-w-3xl lg:min-h-[calc(100vh-8rem)] lg:flex lg:flex-col lg:justify-center lg:py-[clamp(3rem,7vh,5.5rem)]">
                     {/* Driven words */}
                     <div className="hero-driven-wrap relative z-10 pt-[clamp(5rem,9.5vh,7.5rem)] md:pt-[clamp(5.6rem,10.5vh,8.5rem)] lg:pt-0 max-w-[min(100%,44rem)]">
                         <p className="font-mono text-[clamp(0.66rem,2.1vw,1rem)] tracking-[0.2em] md:tracking-[0.24em] text-foreground/25 uppercase mb-2.5 md:mb-3">tu web construida para generar</p>
@@ -238,8 +238,8 @@ export function Hero() {
 
                     {/* Bottom */}
                     <div className="hero-bottom-wrap relative z-10 flex flex-col md:flex-row justify-between items-start md:items-end gap-9 md:gap-12 w-full mt-[clamp(2rem,5vh,3.5rem)] md:mt-[clamp(2.5rem,5.5vh,4rem)] lg:mt-[clamp(1.5rem,3vh,2.5rem)] pt-[clamp(0.75rem,1.4vh,1.25rem)] lg:pt-0 pb-[clamp(1.2rem,3vh,2.5rem)] lg:pb-0">
-                        <div className="max-w-[min(100%,34rem)] xl:max-w-[36rem] 2xl:max-w-[38rem]">
-                        <p className="text-[14px] sm:text-[15px] md:text-base leading-[1.8] md:leading-[1.85] text-foreground/40 mb-7 md:mb-8">
+                        <div className="max-w-[min(100%,34rem)] xl:max-w-xl 2xl:max-w-152">
+                            {/* <p className="text-[14px] sm:text-[15px] md:text-base leading-[1.8] md:leading-[1.85] text-foreground/40 mb-7 md:mb-8">
                             <strong className="text-foreground font-bold text-[1.55rem] sm:text-[1.7rem] md:text-2xl">Tu negocio no es una plantilla.</strong><br />
                             Nosotros tampoco. Diseñamos y programamos tu web
                             desde cero  para que cada visita tenga una razón
@@ -248,31 +248,37 @@ export function Hero() {
                                 de tu negocio en los primeros 5 segundos.
                             </strong>
 
-                        </p>
-                        <div className="flex gap-4 flex-wrap items-center">
-                            <a
-                                href="#paquetes"
-                                onClick={(e) => handleClick(e, '#paquetes')}
-                                className="inline-flex items-center gap-2.5 px-7 py-3.5 bg-primary text-primary-foreground font-mono text-xs font-bold tracking-widest uppercase no-underline rounded-sm transition-all duration-200 hover:bg-[#ff8a5e] hover:-translate-y-0.5 hover:shadow-[0_12px_32px_rgba(255,107,53,0.25)]"
-                            >
-                                Ver paquetes
-                                <ArrowRight size={14} />
-                            </a>
-                            <a
-                                href="#contacto"
-                                onClick={(e) => handleClick(e, '#contacto')}
-                                className="inline-flex items-center gap-2.5 px-7 py-3.5 bg-transparent text-foreground border border-(--hex-border) font-mono text-xs font-bold tracking-widest uppercase no-underline rounded-sm transition-all duration-200 hover:bg-foreground/4"
-                            >
-                                {'Hablemos \u2192'}
-                            </a>
+                        </p> */}
+                            <p className="text-[15px] md:text-base leading-[1.85] text-foreground/40 mb-8">
+                                <strong className="text-foreground font-bold text-2xl">Tu negocio merece una web que trabaje para ti.</strong><br />
+                                Diseñamos y programamos activos digitales propios, rápidos y construidos con un solo objetivo:
+                                <strong className='text-foreground ml-0.5'> que cada visita se convierta en una oportunidad real de negocio.</strong>
+                                &nbsp;Sin plataformas que te cobren por existir. Sin plantillas que te hagan ver igual que todos.
+                            </p>
+                            <div className="flex gap-4 flex-wrap items-center">
+                                <a
+                                    href="#paquetes"
+                                    onClick={(e) => handleClick(e, '#paquetes')}
+                                    className="inline-flex items-center gap-2.5 px-7 py-3.5 bg-primary text-primary-foreground font-mono text-xs font-bold tracking-widest uppercase no-underline rounded-sm transition-all duration-200 hover:bg-[#ff8a5e] hover:-translate-y-0.5 hover:shadow-[0_12px_32px_rgba(255,107,53,0.25)]"
+                                >
+                                    Ver paquetes
+                                    <ArrowRight size={14} />
+                                </a>
+                                <a
+                                    href="#contacto"
+                                    onClick={(e) => handleClick(e, '#contacto')}
+                                    className="inline-flex items-center gap-2.5 px-7 py-3.5 bg-transparent text-foreground border border-(--hex-border) font-mono text-xs font-bold tracking-widest uppercase no-underline rounded-sm transition-all duration-200 hover:bg-foreground/4"
+                                >
+                                    {'Hablemos \u2192'}
+                                </a>
+                            </div>
                         </div>
-                    </div>
                     </div>
                 </div>
 
                 {/* Tablet visual block: fills empty space below content */}
                 <div className="hidden md:flex lg:hidden relative z-10 mt-6 justify-center">
-                    <div className="relative w-[min(100%,40rem)] flex items-end justify-center">
+                    <div className="relative w-[min(100%, 40rem)] flex items-end justify-center">
                         <div className="w-[clamp(20rem,58vw,30rem)] rotate-6 pointer-events-none">
                             <Image
                                 src={macbookMockup}
@@ -288,7 +294,7 @@ export function Hero() {
                                 </text>
                             </svg>
                             <div className="absolute inset-0 flex items-center justify-center font-mono text-[16px] font-bold text-primary text-center leading-[1.3] tracking-[0.05em]">
-                                {'DISENO'}<br />{'ORIGINAL'}
+                                {'DISENO'}<br />{'WENO'}
                             </div>
                         </div>
                     </div>
