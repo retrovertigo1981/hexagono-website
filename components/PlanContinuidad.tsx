@@ -91,7 +91,7 @@ export function PlanContinuidad() {
                     {/* ── Left: copy ── */}
                     <div>
                         <p className="font-mono text-[13px] tracking-[.25em] text-primary uppercase mb-4">
-              // Opcional — Para cuando quieras seguir creciendo
+                            {'// Opcional — Para cuando quieras seguir creciendo'}
                         </p>
 
                         <h2 className="text-[clamp(2rem,4vw,3rem)] font-black tracking-[-0.04em] leading-[1.1] mb-6">

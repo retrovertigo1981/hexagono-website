@@ -42,7 +42,7 @@ export function GsapAnimations() {
                 })
 
                 // Step rows
-                gsap.utils.toArray('.step-row').forEach((el: any, i: number) => {
+                gsap.utils.toArray<Element>('.step-row').forEach((el, i) => {
                     gsap.from(el, {
                         scrollTrigger: { trigger: el, start: 'top 85%' },
                         opacity: 0,
@@ -54,7 +54,7 @@ export function GsapAnimations() {
                 })
 
                 // Value and package cards
-                gsap.utils.toArray('.value-card, .package-card').forEach((el: any, i: number) => {
+                gsap.utils.toArray<Element>('.value-card, .package-card').forEach((el, i) => {
                     gsap.from(el, {
                         scrollTrigger: { trigger: el, start: 'top 88%' },
                         opacity: 0,
@@ -66,7 +66,7 @@ export function GsapAnimations() {
                 })
 
                 // Stat cards
-                gsap.utils.toArray('.stat-card').forEach((el: any, i: number) => {
+                gsap.utils.toArray<Element>('.stat-card').forEach((el, i) => {
                     gsap.from(el, {
                         scrollTrigger: { trigger: el, start: 'top 90%' },
                         opacity: 0,

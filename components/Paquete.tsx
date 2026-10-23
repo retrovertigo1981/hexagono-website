@@ -284,7 +284,7 @@ export function Paquetes() {
                     <div className="flex justify-between items-end flex-wrap gap-6 mb-4">
                         <div>
                             <p className="font-mono text-[13px] tracking-[.3em] text-primary uppercase">
-                // 03 — Paquetes y precios
+                                {'// 03 — Paquetes y precios'}
                             </p>
                             <h2 className="text-[clamp(2.5rem,5vw,4rem)] font-black tracking-[-0.05em] leading-none mt-1">
                                 Precio fijo.{' '}

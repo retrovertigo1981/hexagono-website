@@ -143,6 +143,7 @@ import { useEffect, useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
+import type { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { projects } from '@/data/projects'
 
 export function WorkSection() {
@@ -157,7 +158,7 @@ export function WorkSection() {
         const sticky = stickyRef.current
         if (!workSec || !pt) return
 
-        let stInstance: any = null
+        let stInstance: ScrollTrigger | null = null
         let sw = 0
 
         const setup = async () => {
@@ -177,7 +178,7 @@ export function WorkSection() {
                 end: () => `+=${sw}`,
                 pin: sticky,
                 scrub: 1,
-                onUpdate: (s: any) => {
+                onUpdate: (s) => {
                     gsap.set(pt, { x: -s.progress * sw })
                     const total = projects.length + 1 // cards + CTA
                     const idx = Math.min(Math.floor(s.progress * (total + 1)) + 1, total)

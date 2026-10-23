@@ -35,6 +35,7 @@ export function CustomCursor() {
     useEffect(() => {
         if (typeof window === 'undefined') return
         if (window.matchMedia('pointer: coarse').matches) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect -- la detección solo es posible en el cliente
             setIsTouch(true)
             return
         }

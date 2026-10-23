@@ -116,7 +116,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
 
     // ── GSAP animations ───────────────────────────────────────────────────────
     useLayoutEffect(() => {
-        let ctx: any
+        let ctx: { revert: () => void } | undefined
 
         const init = async () => {
             const { gsap } = await import('gsap')
@@ -212,9 +212,11 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
             ctx.beginPath()
             for (let i = 0; i < 6; i++) {
                 const a = (Math.PI / 180) * (60 * i - 30)
-                i === 0
-                    ? ctx.moveTo(x + r * Math.cos(a), y + r * Math.sin(a))
-                    : ctx.lineTo(x + r * Math.cos(a), y + r * Math.sin(a))
+                if (i === 0) {
+                    ctx.moveTo(x + r * Math.cos(a), y + r * Math.sin(a))
+                } else {
+                    ctx.lineTo(x + r * Math.cos(a), y + r * Math.sin(a))
+                }
             }
             ctx.closePath()
         }
@@ -243,7 +245,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
             buildHexes(canvas!.width, canvas!.height)
         }
 
-        function draw(t: number) {
+        function draw(t = 0) {
             ctx.clearRect(0, 0, canvas!.width, canvas!.height)
             hexes.forEach(h => {
                 const d = Math.hypot((h.x + h.r) - mhx, h.y - mhy)
@@ -408,7 +410,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
 
                     {/* Info del proyecto */}
                     <div className="pd-rv bg-[#141414] border border-white/[0.07] px-8 py-7 rounded-t-md">
-                        <p className="font-mono text-[9px] tracking-[.3em] text-white/30 uppercase mb-5">// Info del proyecto</p>
+                        <p className="font-mono text-[9px] tracking-[.3em] text-white/30 uppercase mb-5">{'// Info del proyecto'}</p>
                         {[
                             { key: 'Cliente', val: project.client },
                             { key: 'Ciudad', val: project.location },
@@ -429,7 +431,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
 
                     {/* Stack tecnológico */}
                     <div className="pd-rv bg-[#141414] border border-white/[0.07] px-8 py-7">
-                        <p className="font-mono text-[9px] tracking-[.3em] text-white/30 uppercase mb-5">// Stack tecnológico</p>
+                        <p className="font-mono text-[9px] tracking-[.3em] text-white/30 uppercase mb-5">{'// Stack tecnológico'}</p>
                         <div className="pd-tech-grid flex flex-wrap gap-2">
                             {project.tech.map(t => (
                                 <span key={t.name} className="pd-tech-tag">
@@ -441,7 +443,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
 
                     {/* Links */}
                     <div className="pd-rv bg-[#141414] border border-white/[0.07] px-8 py-7">
-                        <p className="font-mono text-[9px] tracking-[.3em] text-white/30 uppercase mb-5">// Acceso</p>
+                        <p className="font-mono text-[9px] tracking-[.3em] text-white/30 uppercase mb-5">{'// Acceso'}</p>
                         <div className="flex flex-col gap-[10px]">
                             {project.liveUrl ? (
                                 <a
@@ -504,7 +506,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                         <div className="pd-rv flex items-center justify-between mb-10 flex-wrap gap-4">
                             <div>
                                 <p className="font-mono text-[9px] tracking-[.3em] text-white/25 uppercase mb-2">
-                  // Capturas del proyecto
+                                    {'// Capturas del proyecto'}
                                 </p>
                                 <h2 className="text-[clamp(1.4rem,2.5vw,2rem)] font-black tracking-[-0.04em]">
                                     Más vistas

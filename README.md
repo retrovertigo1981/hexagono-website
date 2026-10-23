@@ -2,23 +2,39 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
-First, run the development server:
+This project uses **pnpm** as its package manager (see `packageManager` in `package.json`). Node.js >= 20.9 is required.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
 pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+Other useful scripts:
+
+```bash
+pnpm build      # production build
+pnpm start      # run the production build
+pnpm lint       # ESLint
+pnpm typecheck  # TypeScript without emitting
+```
+
+## Modo sitio en construcción
+
+Por defecto, `/` muestra la página de construcción (`components/UnderConstruction.tsx`), tanto en local como en producción.
+
+```bash
+pnpm dev                         # página de construcción
+SITE_MODE=live pnpm dev          # ver el sitio completo en local
+SITE_MODE=live pnpm build        # publicar el sitio completo en producción
+```
+
+Los casos de estudio en `/work/[slug]` siguen disponibles en ambos modos. El modo se resuelve en build time, así que cambiarlo en Vercel requiere un nuevo deploy: define `SITE_MODE=live` en las variables de entorno de Production cuando quieras publicar el sitio completo.
+
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to load Manrope and JetBrains Mono.
 
 ## Learn More
 

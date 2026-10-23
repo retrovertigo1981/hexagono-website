@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef, useCallback } from 'react'
 import { createPortal } from 'react-dom'
+import Link from 'next/link'
 import gsap from 'gsap'
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
 
@@ -85,6 +86,7 @@ export function Navbar() {
 
     // Montar el portal solo en el cliente para evitar hydration mismatch
     useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect -- el valor solo puede conocerse en el cliente
         setMounted(true);
     }, []);
 
@@ -104,6 +106,7 @@ export function Navbar() {
 
     useEffect(() => {
         if (menuOpen) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect -- reinicia la imagen al abrir el menú
             setActiveImg(0)
             prevImgRef.current = 0
             gsap.fromTo(
@@ -202,10 +205,10 @@ export function Navbar() {
             className={`fixed top-0 left-0 right-0 flex justify-between items-center px-6 py-7 md:px-12 transition-all duration-300 pointer-events-auto ${scrolled ? 'bg-[rgba(10,10,10,0.9)] backdrop-blur-[20px] border-b border-(--hex-border)' : ''}`}
             style={{ zIndex: 2147483600 }}
         >
-            <a href="/" className='font-mono text-[15px] font-bold tracking-[0.15rem] text-foreground no-underline'>
+            <Link href="/" className='font-mono text-[15px] font-bold tracking-[0.15rem] text-foreground no-underline'>
                 {'HEXAGONO 8'}
                 <span className='text-primary' style={{ fontSize: 'normal' }}>.</span>
-            </a>
+            </Link>
             <div className='flex items-center gap-8'>
                 <span className='font-mono text-[10px] tracking-[0.25em] text-foreground/30 uppercase hidden md:inline'>
                     Santiago &middot; Rancagua &middot; Rengo
